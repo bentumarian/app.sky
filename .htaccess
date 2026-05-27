@@ -1,0 +1,28 @@
+# SkyCert Platform — routing minimal
+# Front controller: tot prin index.php
+
+DirectoryIndex index.php
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Dacă fișierul/folderul nu există, trimite la index.php cu route ca parametru
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php?route=$1 [QSA,L]
+</IfModule>
+
+# Blochează acces direct la fișierele sensibile (config, helpers, db, auth)
+<Files "config.php">
+    Require all denied
+</Files>
+<Files "db.php">
+    Require all denied
+</Files>
+<Files "auth.php">
+    Require all denied
+</Files>
+<Files "helpers.php">
+    Require all denied
+</Files>
